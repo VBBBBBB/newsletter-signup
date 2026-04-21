@@ -9,6 +9,7 @@
   --clr-charcoal: #36384d;
   --clr-grey: #9294a0;
   --clr-light-grey: #f4f4f6;
+  --clr-white: #ffffff;
   --clr-error: #ff6155;
   --clr-error-bg: #fff2f1;
 
@@ -16,13 +17,13 @@
   --fw-regular: 400;
   --fw-bold: 700;
 
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 36px;
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 2.25rem;
   --radius-full: 9999px;
 
-  --shadow-card: 0 20px 60px rgba(0, 0, 0, 0.12);
-  --shadow-btn: 0 8px 24px rgba(255, 97, 85, 0.45);
+  --shadow-card: 0 1.25rem 3.75rem rgba(0, 0, 0, 0.12);
+  --shadow-btn: 0 0.5rem 1.5rem rgba(255, 97, 85, 0.45);
 }
 
 /* ============================
@@ -34,7 +35,10 @@
   padding: 0;
 }
 
-html { font-size: 16px; }
+html {
+  /* Using percentage enables user font-size preferences */
+  font-size: 100%;
+}
 
 body {
   font-family: var(--ff-base);
@@ -42,51 +46,55 @@ body {
   color: var(--clr-charcoal);
   min-height: 100dvh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   background: var(--clr-dark-navy);
-  padding: 1rem;
 }
 
-img { display: block; max-width: 100%; }
-ul  { list-style: none; }
+img {
+  display: block;
+  max-width: 100%;
+}
+
+ul {
+  list-style: none;
+}
 
 /* ============================
-   Card (Sign-up)
+   Card (Sign-up) - Mobile First
    ============================ */
 .card {
   display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-  background: #fff;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
-  overflow: hidden;
-  max-width: 860px;
+  flex-direction: column;
+  background: var(--clr-white);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
   width: 100%;
-  animation: fadeUp 0.5s ease;
+  max-width: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card {
+    animation: fadeUp 0.5s ease;
+  }
 }
 
 .card__illustration {
-  flex: 0 0 380px;
-  min-height: 560px;
-  display: flex;
-  align-items: stretch;
+  width: 100%;
+  min-height: 15rem;
 }
 
 .card__img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  border-radius: 0;
 }
 
-.card__img--mobile { display: none; }
-.card__img--desktop { display: block; }
+.card__img--desktop { display: none; }
+.card__img--mobile { display: block; }
 
 .card__content {
-  flex: 1;
-  padding: 3rem 2.5rem;
+  padding: 2rem 1.5rem 2.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -96,7 +104,7 @@ ul  { list-style: none; }
    Typography
    ============================ */
 .card__title {
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(2rem, 8vw, 3.5rem);
   font-weight: var(--fw-bold);
   color: var(--clr-dark-navy);
   line-height: 1.1;
@@ -129,15 +137,15 @@ ul  { list-style: none; }
 .benefit__icon {
   display: grid;
   place-items: center;
-  width: 22px;
-  height: 22px;
-  min-width: 22px;
+  width: 1.375rem;
+  height: 1.375rem;
+  min-width: 1.375rem;
   background: linear-gradient(135deg, var(--clr-tomato), #ff527b);
-  color: #fff;
+  color: var(--clr-white);
   font-size: 0.65rem;
   font-weight: 700;
   border-radius: var(--radius-full);
-  margin-top: 1px;
+  margin-block-start: 0.0625rem; /* logical property instead of margin-top */
 }
 
 /* ============================
@@ -147,7 +155,7 @@ ul  { list-style: none; }
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-top: 0.5rem;
+  margin-block-start: 0.5rem;
 }
 
 .form__group {
@@ -179,21 +187,21 @@ ul  { list-style: none; }
 .form__input {
   width: 100%;
   padding: 0.875rem 1.25rem;
-  border: 1.5px solid #d3d4df;
+  border: 0.09375rem solid #d3d4df; /* 1.5px to rem */
   border-radius: var(--radius-sm);
   font-family: var(--ff-base);
   font-size: 1rem;
   color: var(--clr-dark-navy);
   outline: none;
   transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
-  background: #fff;
+  background: var(--clr-white);
 }
 
-.form__input::placeholder { color: #9294a0; }
+.form__input::placeholder { color: var(--clr-grey); }
 
 .form__input:focus {
   border-color: var(--clr-dark-navy);
-  box-shadow: 0 0 0 3px rgba(30,31,43,0.08);
+  box-shadow: 0 0 0 0.1875rem rgba(30,31,43,0.08); /* 3px to rem */
 }
 
 .form__input.is-invalid {
@@ -221,33 +229,37 @@ ul  { list-style: none; }
 
 .btn--primary {
   background: linear-gradient(135deg, var(--clr-dark-navy) 0%, var(--clr-charcoal) 100%);
-  color: #fff;
-  box-shadow: 0 4px 16px rgba(30,31,43,0.25);
+  color: var(--clr-white);
+  box-shadow: 0 0.25rem 1rem rgba(30,31,43,0.25);
 }
 
 .btn--primary:hover,
 .btn--primary:focus-visible {
   background: linear-gradient(135deg, var(--clr-tomato) 0%, #ff527b 100%);
   box-shadow: var(--shadow-btn);
-  transform: translateY(-2px);
+  transform: translateY(-0.125rem); /* -2px to rem */
 }
 
 .btn--primary:active { transform: translateY(0); }
 
 /* ============================
-   Success Card
+   Success Card - Mobile First
    ============================ */
 .success-card {
-  background: #fff;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
-  padding: 3.5rem 3rem;
-  max-width: 480px;
+  background: var(--clr-white);
+  padding: 4rem 1.5rem 2rem;
   width: 100%;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 1.5rem;
-  animation: fadeUp 0.45s ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .success-card {
+    animation: fadeUp 0.45s ease;
+  }
 }
 
 .success__icon-wrap {
@@ -255,12 +267,12 @@ ul  { list-style: none; }
 }
 
 .success__icon {
-  width: 64px;
-  height: 64px;
+  width: 4rem; /* 64px to rem */
+  height: 4rem;
 }
 
 .success__title {
-  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-size: clamp(2.5rem, 8vw, 3rem);
   font-weight: var(--fw-bold);
   color: var(--clr-dark-navy);
   line-height: 1.15;
@@ -278,14 +290,15 @@ ul  { list-style: none; }
 }
 
 .success-card .btn--primary {
-  margin-top: 1rem;
+  margin-block-start: 1rem;
 }
 
 /* ============================
    Utility
    ============================ */
-.hidden {
-  display: none !important;
+/* Higher specificity replaces !important */
+body .hidden {
+  display: none;
 }
 
 /* ============================
@@ -294,7 +307,7 @@ ul  { list-style: none; }
 @keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(1.25rem); /* 20px to rem */
   }
   to {
     opacity: 1;
@@ -303,45 +316,49 @@ ul  { list-style: none; }
 }
 
 /* ============================
-   Responsive – Tablet
+   Responsive – Desktop/Tablet (45em ~ 720px)
    ============================ */
-@media (max-width: 720px) {
-  body { padding: 0; align-items: flex-start; }
+@media (min-width: 45em) {
+  body {
+    padding: 1rem;
+    align-items: center;
+  }
 
+  /* Desktop Sign-up Card */
   .card {
-    flex-direction: column;
-    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-    max-width: 100%;
+    flex-direction: row-reverse;
+    align-items: center;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    max-width: 53.75rem; /* 860px to rem */
   }
 
   .card__illustration {
-    flex: none;
-    width: 100%;
-    min-height: 240px;
+    flex: 0 0 23.75rem; /* 380px to rem */
+    min-height: 35rem; /* 560px to rem */
+    display: flex;
+    align-items: stretch;
   }
 
-  .card__img { border-radius: 0; }
-  .card__img--desktop { display: none; }
-  .card__img--mobile  { display: block; }
+  .card__img {
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  }
+
+  .card__img--desktop { display: block; }
+  .card__img--mobile  { display: none; }
 
   .card__content {
-    padding: 2rem 1.5rem 2.5rem;
+    flex: 1;
+    padding: 3rem 2.5rem;
   }
 
+  /* Desktop Success Card */
   .success-card {
-    border-radius: 0;
-    min-height: 100dvh;
-    padding: 4rem 1.5rem 2rem;
-    justify-content: center;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 3.5rem 3rem;
+    max-width: 30rem; /* 480px to rem */
+    min-height: auto;
+    justify-content: flex-start;
   }
-}
-
-/* ============================
-   Responsive – Mobile (small)
-   ============================ */
-@media (max-width: 420px) {
-  .card__title { font-size: 1.75rem; }
-  .card__content { padding: 1.5rem 1.25rem 2rem; }
-  .success-card  { padding: 3rem 1.25rem 2rem; }
-  .success__title { font-size: 1.75rem; }
 }
